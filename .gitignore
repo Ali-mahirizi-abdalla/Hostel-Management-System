@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg-info/
+*.egg
+*.dist-info/
+.Python
+venv/
+.env
+.env.*
+.venv/
+# Django stuff
+db.sqlite3
+/media
+/staticfiles
+/static
+# VSCode
+.vscode/
+# Mac
+.DS_Store
+# PyCharm
+.idea/
+# Logs
+*.log
+
+# Local env
+.env
+
+# Node
+node_modules/
+
+# Build
+build/
+dist/
+*.tar.gz
+
+# Coverage
+htmlcov/
+.coverage
+
+# OS
+Thumbs.db
+desktop.ini

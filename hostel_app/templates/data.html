@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Data Viewer</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/professional.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .data-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .data-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+            animation: slideDown 0.5s ease;
+        }
+
+        .data-header h1 {
+            margin: 0;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .auth-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .data-section {
+            background: white;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+            border-left: 5px solid #667eea;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .data-section h2 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .back-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9ff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        pre {
+            background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
+            padding: 20px;
+            border-radius: 12px;
+            overflow-x: auto;
+            border-left: 5px solid #667eea;
+            border: 1px solid #e0e0e0;
+        }
+
+        .json-data {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 16px;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .data-header {
+                padding: 25px;
+            }
+
+            .data-header h1 {
+                font-size: 24px;
+            }
+
+            .data-section {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="{% url 'index' %}" class="nav-logo">🏨 Hostel Management</a>
+            </div>
+            <div class="nav-right">
+                <span class="nav-user">👤 {{ user.username }}</span>
+                <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                <a href="{% url 'index' %}" class="nav-link">Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="data-container">
+        <div class="data-header">
+            <h1>📊 Backend Database Viewer</h1>
+            <p>View all stored data in your hostel management system</p>
+            <div class="auth-badge">🔒 Authenticated Access Only</div>
+        </div>
+
+        <a href="{% url 'index' %}" class="back-link">← Back to Booking</a>
+
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Rooms</div>
+                <div class="stat-number">{{ rooms|length }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Guests</div>
+                <div class="stat-number">{{ guests|length }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Bookings</div>
+                <div class="stat-number">{{ bookings|length }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Occupied Rooms</div>
+                <div class="stat-number">{{ occupied_count }}</div>
+            </div>
+        </div>
+
+        <!-- Rooms Section -->
+        <div class="data-section">
+            <h2>🏠 All Rooms</h2>
+            {% if rooms %}
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Room Number</th>
+                        <th>Type</th>
+                        <th>Capacity</th>
+                        <th>Price/Night</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for room in rooms %}
+                    <tr>
+                        <td>{{ room.room_number }}</td>
+                        <td>{{ room.get_room_type_display }}</td>
+                        <td>{{ room.capacity }}</td>
+                        <td>${{ room.price_per_night }}</td>
+                        <td>
+                            <span style="padding: 5px 10px; border-radius: 5px; background: {% if room.status == 'available' %}#28a745{% else %}#dc3545{% endif %}; color: white; font-weight: 600;">
+                                {{ room.get_status_display }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="no-data">No rooms in database</div>
+            {% endif %}
+        </div>
+
+        <!-- Guests Section -->
+        <div class="data-section">
+            <h2>👥 All Guests</h2>
+            {% if guests %}
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for guest in guests %}
+                    <tr>
+                        <td>{{ guest.name }}</td>
+                        <td>{{ guest.email }}</td>
+                        <td>{{ guest.phone }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="no-data">No guests in database</div>
+            {% endif %}
+        </div>
+
+        <!-- Bookings Section -->
+        <div class="data-section">
+            <h2>📋 All Bookings</h2>
+            {% if bookings %}
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Guest</th>
+                        <th>Room</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Total Price</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.guest.name }}</td>
+                        <td>{{ booking.room.room_number }}</td>
+                        <td>{{ booking.check_in_date|date:"Y-m-d" }}</td>
+                        <td>{{ booking.check_out_date|date:"Y-m-d" }}</td>
+                        <td>${{ booking.total_price }}</td>
+                        <td>
+                            <span style="padding: 5px 10px; border-radius: 5px; background: {% if booking.status == 'confirmed' %}#28a745{% elif booking.status == 'checked_in' %}#0066cc{% else %}#6c757d{% endif %}; color: white; font-weight: 600;">
+                                {{ booking.get_status_display }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="no-data">No bookings in database</div>
+            {% endif %}
+        </div>
+
+        <a href="{% url 'index' %}" class="back-link">← Back to Booking</a>
+    </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
+
+        .stat-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-item-value {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .stat-item-label {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        ul li strong {
+            color: #667eea;
+        }
+
+        code {
+            background: #f5f7fa;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d73a49;
+            border: 1px solid #e0e0e0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>📊 Database Data Viewer</h1>
+    
+    <div style="max-width: 1200px; margin: 0 auto; padding: 30px;">
+        <a href="{% url 'index' %}" class="back-link">← Back to Booking System</a>
+        
+        <p style="text-align: center; font-size: 18px; color: #666; margin-bottom: 30px;">
+            View all the information stored in your database backend
+        </p>
+
+        <!-- Statistics -->
+        <div class="stat-box">
+            <div class="stat-item">
+                <div class="stat-item-value">{{ rooms.count }}</div>
+                <div class="stat-item-label">Total Rooms</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-item-value">{{ guests.count }}</div>
+                <div class="stat-item-label">Total Guests</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-item-value">{{ bookings.count }}</div>
+                <div class="stat-item-label">Total Bookings</div>
+            </div>
+        </div>
+
+        <!-- Rooms Data -->
+        <div class="data-section">
+            <h2>🏠 Rooms Data</h2>
+            {% if rooms %}
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Room Number</th>
+                        <th>Type</th>
+                        <th>Capacity</th>
+                        <th>Price/Night</th>
+                        <th>Status</th>
+                        <th>Amenities</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for room in rooms %}
+                    <tr>
+                        <td>{{ room.id }}</td>
+                        <td><strong>{{ room.room_number }}</strong></td>
+                        <td>{{ room.get_room_type_display }}</td>
+                        <td>{{ room.capacity }}</td>
+                        <td>${{ room.price_per_night }}</td>
+                        <td><span style="color: {% if room.status == 'available' %}#28a745{% else %}#dc3545{% endif %}; font-weight: 700;">{{ room.get_status_display }}</span></td>
+                        <td>{{ room.amenities }}</td>
+                        <td>{{ room.created_at|date:"Y-m-d H:i" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; color: #999;">No rooms in database</p>
+            {% endif %}
+        </div>
+
+        <!-- Guests Data -->
+        <div class="data-section">
+            <h2>👥 Guests Data</h2>
+            {% if guests %}
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for guest in guests %}
+                    <tr>
+                        <td>{{ guest.id }}</td>
+                        <td><strong>{{ guest.name }}</strong></td>
+                        <td>{{ guest.email }}</td>
+                        <td>{{ guest.phone }}</td>
+                        <td>{{ guest.address|default:"N/A" }}</td>
+                        <td>{{ guest.created_at|date:"Y-m-d H:i" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; color: #999;">No guests in database</p>
+            {% endif %}
+        </div>
+
+        <!-- Bookings Data -->
+        <div class="data-section">
+            <h2>📋 Bookings Data</h2>
+            {% if bookings %}
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Guest</th>
+                        <th>Room</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Guests</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.id }}</td>
+                        <td><strong>{{ booking.guest.name }}</strong></td>
+                        <td>{{ booking.room.room_number }}</td>
+                        <td>{{ booking.check_in_date }}</td>
+                        <td>{{ booking.check_out_date }}</td>
+                        <td>{{ booking.number_of_guests }}</td>
+                        <td>${{ booking.total_price }}</td>
+                        <td><span style="color: {% if booking.status == 'confirmed' %}#28a745{% else %}#ffc107{% endif %}; font-weight: 700;">{{ booking.get_status_display }}</span></td>
+                        <td>{{ booking.created_at|date:"Y-m-d H:i" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align: center; color: #999;">No bookings in database</p>
+            {% endif %}
+        </div>
+
+        <!-- Storage Information -->
+        <div class="data-section">
+            <h2>💾 Storage & Backup Information</h2>
+            
+            <h3>Database Location:</h3>
+            <pre><code>C:\Users\jamal\OneDrive\Desktop\Hostel\db.sqlite3</code></pre>
+            
+            <h3>Database Tables:</h3>
+            <ul>
+                <li><strong>hostel_app_room</strong> - Stores all room information (capacity, price, amenities)</li>
+                <li><strong>hostel_app_guest</strong> - Stores guest details (name, email, phone, address)</li>
+                <li><strong>hostel_app_booking</strong> - Stores all bookings with dates, prices, and status</li>
+                <li><strong>auth_user</strong> - Admin user accounts for login</li>
+            </ul>
+
+            <h3>How to Access:</h3>
+            <ul>
+                <li><strong>Django Admin:</strong> <a href="/admin/" target="_blank">/admin/</a> (Recommended)</li>
+                <li><strong>SQLite Browser:</strong> Download <a href="https://sqlitebrowser.org/" target="_blank">DB Browser for SQLite</a> and open db.sqlite3</li>
+                <li><strong>Python Script:</strong> Write custom scripts to query the database</li>
+            </ul>
+
+            <h3>Backup Your Data:</h3>
+            <ul>
+                <li>Copy the file: <code>db.sqlite3</code></li>
+                <li>Store it in a safe location</li>
+                <li>Create regular backups to avoid data loss</li>
+            </ul>
+        </div>
+
+        <a href="{% url 'index' %}" class="back-link">← Back to Booking System</a>
+    </div>
+</body>
+</html>
