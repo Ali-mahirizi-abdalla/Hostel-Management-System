@@ -235,6 +235,7 @@
             <table class="data-table">
                 <thead>
                     <tr>
+                        <th>Image</th>
                         <th>Room Number</th>
                         <th>Type</th>
                         <th>Capacity</th>
@@ -245,6 +246,17 @@
                 <tbody>
                     {% for room in rooms %}
                     <tr>
+                        <td>
+                            {% if room.room_type == 'single' %}
+                                <img src="{% static 'images/_Photorealistic images of various types of bedrooms for a website_ single rooms with a cozy single bed, bedside table, and lamp; bed-sitter rooms with compact bed, small sitting area, and kitchenette corner; do (1).jpg' %}" alt="Single Room" style="width: 80px; height: 60px; border-radius: 8px; object-fit: cover;">
+                            {% elif room.room_type == 'double' %}
+                                <img src="{% static 'images/_Photorealistic images of various types of bedrooms for a website_ single rooms with a cozy single bed, bedside table, and lamp; bed-sitter rooms with compact bed, small sitting area, and kitchenette corner; double.jpg' %}" alt="Double Room" style="width: 80px; height: 60px; border-radius: 8px; object-fit: cover;">
+                            {% elif room.room_type == 'dorm' %}
+                                <img src="{% static 'images/_Photorealistic images of various types of bedrooms for a website_ single rooms with a cozy single bed, bedside table, and lamp; bed-sitter rooms with compact bed, small sitting area, and kitchenette corner; do (2).jpg' %}" alt="Dorm Room" style="width: 80px; height: 60px; border-radius: 8px; object-fit: cover;">
+                            {% elif room.room_type == 'suite' %}
+                                <img src="{% static 'images/High-quality, realistic image of a modern bedroom with a comfortable bed, soft natural lighting, minimalistic decor, cozy atmosphere, wooden floor, bedside table with lamp, neutral colors, large window letting in s.jpg' %}" alt="Suite Room" style="width: 80px; height: 60px; border-radius: 8px; object-fit: cover;">
+                            {% endif %}
+                        </td>
                         <td>{{ room.room_number }}</td>
                         <td>{{ room.get_room_type_display }}</td>
                         <td>{{ room.capacity }}</td>
@@ -432,6 +444,7 @@
             <table border="1">
                 <thead>
                     <tr>
+                        <th>Image</th>
                         <th>ID</th>
                         <th>Room Number</th>
                         <th>Type</th>
@@ -445,6 +458,17 @@
                 <tbody>
                     {% for room in rooms %}
                     <tr>
+                        <td>
+                            {% if room.room_type == 'single' %}
+                                <img src="{% static 'images/_Photorealistic images of various types of bedrooms for a website_ single rooms with a cozy single bed, bedside table, and lamp; bed-sitter rooms with compact bed, small sitting area, and kitchenette corner; do (1).jpg' %}" alt="Single Room" style="width: 80px; height: 60px; border-radius: 8px; object-fit: cover;">
+                            {% elif room.room_type == 'double' %}
+                                <img src="{% static 'images/_Photorealistic images of various types of bedrooms for a website_ single rooms with a cozy single bed, bedside table, and lamp; bed-sitter rooms with compact bed, small sitting area, and kitchenette corner; double.jpg' %}" alt="Double Room" style="width: 80px; height: 60px; border-radius: 8px; object-fit: cover;">
+                            {% elif room.room_type == 'dorm' %}
+                                <img src="{% static 'images/_Photorealistic images of various types of bedrooms for a website_ single rooms with a cozy single bed, bedside table, and lamp; bed-sitter rooms with compact bed, small sitting area, and kitchenette corner; do (2).jpg' %}" alt="Dorm Room" style="width: 80px; height: 60px; border-radius: 8px; object-fit: cover;">
+                            {% elif room.room_type == 'suite' %}
+                                <img src="{% static 'images/High-quality, realistic image of a modern bedroom with a comfortable bed, soft natural lighting, minimalistic decor, cozy atmosphere, wooden floor, bedside table with lamp, neutral colors, large window letting in s.jpg' %}" alt="Suite Room" style="width: 80px; height: 60px; border-radius: 8px; object-fit: cover;">
+                            {% endif %}
+                        </td>
                         <td>{{ room.id }}</td>
                         <td><strong>{{ room.room_number }}</strong></td>
                         <td>{{ room.get_room_type_display }}</td>

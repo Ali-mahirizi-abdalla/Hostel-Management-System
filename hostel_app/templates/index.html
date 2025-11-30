@@ -111,13 +111,13 @@
         <div class="gallery-item">
             <div class="gallery-image-wrapper">
                 {% if room.room_type == 'single' %}
-                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=200&fit=crop" alt="Single Room {{ room.room_number }}">
+                    <img src="{% static 'images/_Photorealistic images of various types of bedrooms for a website_ single rooms with a cozy single bed, bedside table, and lamp; bed-sitter rooms with compact bed, small sitting area, and kitchenette corner; do (1).jpg' %}" alt="Single Room {{ room.room_number }}">
                 {% elif room.room_type == 'double' %}
-                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=200&fit=crop" alt="Double Room {{ room.room_number }}">
+                    <img src="{% static 'images/_Photorealistic images of various types of bedrooms for a website_ single rooms with a cozy single bed, bedside table, and lamp; bed-sitter rooms with compact bed, small sitting area, and kitchenette corner; double.jpg' %}" alt="Double Room {{ room.room_number }}">
                 {% elif room.room_type == 'dorm' %}
-                    <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&h=200&fit=crop" alt="Dorm Room {{ room.room_number }}">
+                    <img src="{% static 'images/_Photorealistic images of various types of bedrooms for a website_ single rooms with a cozy single bed, bedside table, and lamp; bed-sitter rooms with compact bed, small sitting area, and kitchenette corner; do (2).jpg' %}" alt="Dorm Room {{ room.room_number }}">
                 {% elif room.room_type == 'suite' %}
-                    <img src="https://images.unsplash.com/photo-1571508601166-ee0e2e6e6e9e?w=400&h=200&fit=crop" alt="Suite Room {{ room.room_number }}">
+                    <img src="{% static 'images/High-quality, realistic image of a modern bedroom with a comfortable bed, soft natural lighting, minimalistic decor, cozy atmosphere, wooden floor, bedside table with lamp, neutral colors, large window letting in s.jpg' %}" alt="Suite Room {{ room.room_number }}">
                 {% endif %}
                 <div class="room-badge">{{ room.get_room_type_display }}</div>
                 <div class="room-status" style="background: {% if room.status == 'available' %}#28a745{% else %}#dc3545{% endif %};">
@@ -137,6 +137,74 @@
         </div>
         {% endfor %}
     </div>
+    </div>
+
+    <h2>🖼️ Room Image Gallery</h2>
+   <!-- Room Gallery Example -->
+<div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15); transition: all 0.3s ease; cursor: pointer;">
+    <img src="{% static 'images/b65da12e-6b86-4d74-a8be-0b9832f965d6.JPG' %}" 
+         alt="Premium Room Example" 
+         style="width:100%; height:200px; object-fit:cover;">
+    <div style="padding: 15px;">
+        <h3 style="margin: 0 0 8px 0; color: #667eea; font-size: 16px;">Premium Room</h3>
+        <p style="margin: 0; color: #666; font-size: 13px;">Spacious room with modern amenities</p>
+    </div>
+</div>
+
+            <!-- Photorealistic Double Room -->
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15); transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 50px rgba(102, 126, 234, 0.25)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(102, 126, 234, 0.15)';">
+                <img src="{% static 'images/_Photorealistic images of various types of bedrooms for a website_ single rooms with a cozy single bed, bedside table, and lamp; bed-sitter rooms with compact bed, small sitting area, and kitchenette corner; double.jpg' %}" alt="Double Room - Comfortable Bed" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 15px;">
+                    <h3 style="margin: 0 0 8px 0; color: #667eea; font-size: 16px;">Double Room</h3>
+                    <p style="margin: 0; color: #666; font-size: 13px;">Spacious double bed with comfort</p>
+                </div>
+            </div>
+
+            <!-- Photorealistic Dorm Room -->
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15); transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 50px rgba(102, 126, 234, 0.25)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(102, 126, 234, 0.15)';">
+                <img src="{% static 'images/_Photorealistic images of various types of bedrooms for a website_ single rooms with a cozy single bed, bedside table, and lamp; bed-sitter rooms with compact bed, small sitting area, and kitchenette corner; do (2).jpg' %}" alt="Dorm Room - Multi-bed" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 15px;">
+                    <h3 style="margin: 0 0 8px 0; color: #667eea; font-size: 16px;">Dorm Room</h3>
+                    <p style="margin: 0; color: #666; font-size: 13px;">Budget-friendly shared room</p>
+                </div>
+            </div>
+
+            <!-- Suite Room Premium 1 -->
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15); transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 50px rgba(102, 126, 234, 0.25)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(102, 126, 234, 0.15)';">
+                <img src="{% static 'images/High-quality, realistic image of a modern bedroom with a comfortable bed, soft natural lighting, minimalistic decor, cozy atmosphere, wooden floor, bedside table with lamp, neutral colors, large window letting in s.jpg' %}" alt="Suite Room - Premium" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 15px;">
+                    <h3 style="margin: 0 0 8px 0; color: #667eea; font-size: 16px;">Premium Suite</h3>
+                    <p style="margin: 0; color: #666; font-size: 13px;">Luxurious with modern amenities</p>
+                </div>
+            </div>
+
+            <!-- Suite Room Premium 2 -->
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15); transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 50px rgba(102, 126, 234, 0.25)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(102, 126, 234, 0.15)';">
+                <img src="{% static 'images/High-quality, realistic image of a modern bedroom with a comfortable bed, soft natural lighting, minimalistic decor, cozy atmosphere, wooden floor, bedside table with lamp, neutral colors, large window letting  (1).jpg' %}" alt="Suite Room - Elegant" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 15px;">
+                    <h3 style="margin: 0 0 8px 0; color: #667eea; font-size: 16px;">Elegant Suite</h3>
+                    <p style="margin: 0; color: #666; font-size: 13px;">Elegant with wooden floors</p>
+                </div>
+            </div>
+
+            <!-- Suite Room Premium 3 -->
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15); transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 50px rgba(102, 126, 234, 0.25)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(102, 126, 234, 0.15)';">
+                <img src="{% static 'images/High-quality, realistic image of a modern bedroom with a comfortable bed, soft natural lighting, minimalistic decor, cozy atmosphere, wooden floor, bedside table with lamp, neutral colors, large window letting  (2).jpg' %}" alt="Suite Room - Modern" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 15px;">
+                    <h3 style="margin: 0 0 8px 0; color: #667eea; font-size: 16px;">Modern Suite</h3>
+                    <p style="margin: 0; color: #666; font-size: 13px;">Contemporary with minimalist design</p>
+                </div>
+            </div>
+
+            <!-- Suite Room Premium 4 -->
+            <div style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15); transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 50px rgba(102, 126, 234, 0.25)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(102, 126, 234, 0.15)';">
+                <img src="{% static 'images/High-quality, realistic image of a modern bedroom with a comfortable bed, soft natural lighting, minimalistic decor, cozy atmosphere, wooden floor, bedside table with lamp, neutral colors, large window letting  (3).jpg' %}" alt="Suite Room - Deluxe" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 15px;">
+                    <h3 style="margin: 0 0 8px 0; color: #667eea; font-size: 16px;">Deluxe Suite</h3>
+                    <p style="margin: 0; color: #666; font-size: 13px;">Premium room with amenities</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <h2>📋 All Rooms Details</h2>
